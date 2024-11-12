@@ -36,16 +36,19 @@ $userName = $_SESSION['user_name'];
         .navbar .logo {
             font-size: 20px;
             font-weight: bold;
+           
+    
         }
         .navbar ul {
             list-style-type: none;
             margin: 0;
             padding: 0;
             display: flex;
+            margin-right: auto;
         }
         .navbar ul li {
             position: relative;
-            margin-right: 350px;
+            margin-right: auto;
         }
         .navbar ul li a {
             text-decoration: none;
