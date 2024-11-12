@@ -135,12 +135,13 @@ if (isset($_SESSION['error'])) {
 </head>
 <body>
     <div class="container">
-        <div id="login-logo">
-            <div id="border">
-                <i class="fa fa-lock"></i>
-            </div>
-            <div id="elzero">banphaihospital Login</div>
-        </div>
+    <div id="login-logo">
+    <div>
+        <img src="https://โรงงานเสาเข็ม.com/wp-content/uploads/2022/06/%E0%B8%A3%E0%B8%9E.%E0%B8%9A%E0%B8%9C-800x675.png" alt="Login Logo" style="width: 250px; height:200px;"> <!-- กำหนดขนาดตามต้องการ -->
+    </div>
+    <div id="elzero">banphaihospital Login</div>
+</div>
+
         <form autocomplete="off" action="login_process.php" method="post">
             <div id="user" class="input-container">
                 <input type="text" id="userInput" name="username" placeholder=" " required />

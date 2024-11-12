@@ -140,7 +140,8 @@ $userName = $_SESSION['user_name'];
 <body>
 
 <div class="navbar">
-    <div class="logo">Dashboard</div>
+    <div class="logo"><img src="https://scontent.fkkc3-1.fna.fbcdn.net/v/t1.15752-9/462642701_1648987868991321_8373427452202184159_n.png?_nc_cat=104&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeGa5uCObmcrsA79DAb3WeZBwgatLBJN9OjCBq0sEk306NG48TPnYjJhAFBIl0mTVXs8R2kfXtgoCHDW_kvziWy1&_nc_ohc=r23f8vZ2Hd4Q7kNvgGdzH1O&_nc_zt=23&_nc_ht=scontent.fkkc3-1.fna&oh=03_Q7cD1QH2MH7o4_9RRcnZXrHmtJnAEnoHT98_qybGEXoXJjhjBQ&oe=675A528C" alt="Login Logo" style="width: 90px; height:60px;">
+</div>
     <ul>
         <li><a href="#home">บุคลากร</a></li>
         <li class="dropdown">
