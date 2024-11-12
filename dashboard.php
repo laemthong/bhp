@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION['user_name'])) {
+    header("Location: index.php"); // Redirect to login if not logged in
+    exit();
+}
+$userName = $_SESSION['user_name'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -113,6 +121,10 @@
         .navbar .logout-button:hover {
             background-color: #c9302c;
         }
+        .navbar .user-info{
+            margin-left:900px;
+            
+        }
     </style>
 </head>
 <body>
@@ -132,7 +144,8 @@
                 </div>
             </li>
         </ul>
-        <a href="logout.php" class="logout-button" onclick="confirmLogout(event)">Logout</a>
+        <div class="user-info">ยินดีต้อนรับ, <?= htmlspecialchars($userName); ?></div>
+        <a href="logout.php" class="logout-button" onclick="confirmLogout(event)">ออกจากระบบ</a>
 
 
     </div>

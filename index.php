@@ -2,7 +2,7 @@
 session_start();
 if (isset($_SESSION['error'])) {
     $error = $_SESSION['error'];
-    unset($_SESSION['error']);
+    unset($_SESSION['error']); // Clear error after displaying it
 }
 ?>
 <!DOCTYPE html>
