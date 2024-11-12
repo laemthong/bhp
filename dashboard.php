@@ -14,6 +14,7 @@ $userName = $_SESSION['user_name'];
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   
     <style>
         /* สไตล์สำหรับ Navbar */
         body {
@@ -27,6 +28,10 @@ $userName = $_SESSION['user_name'];
             background-color: #333;
             padding: 10px 20px;
             color: #fff;
+            position: fixed; /* ทำให้ navbar คงที่ */
+            top: 0; /* ติดอยู่ด้านบนของหน้า */
+            width: 100%; /* กำหนดให้กว้างเต็มหน้าจอ */
+            z-index: 1000; /* ให้ navbar อยู่เหนือเนื้อหาอื่น */
         }
         .navbar .logo {
             font-size: 20px;
@@ -40,7 +45,7 @@ $userName = $_SESSION['user_name'];
         }
         .navbar ul li {
             position: relative;
-            margin-left: 20px;
+            margin-right: 350px;
         }
         .navbar ul li a {
             text-decoration: none;
@@ -100,15 +105,10 @@ $userName = $_SESSION['user_name'];
         .navbar ul li:hover > a::after {
             transform: rotate(-135deg);
         }
-        /* เอาลูกศรออกจากเมนูย่อย */
-.navbar ul li:not(.dropdown) > a::after {
-    content: none;
-}
 
-.navbar ul li .dropdown-content a::after {
-    content: none; /* ไม่แสดงลูกศรในเมนูย่อย */
-}
-
+        .navbar ul li .dropdown-content a::after {
+            content: none; /* ไม่แสดงลูกศรในเมนูย่อย */
+        }
 
         .navbar .logout-button {
             background-color: #d9534f;
@@ -117,43 +117,51 @@ $userName = $_SESSION['user_name'];
             text-decoration: none;
             border-radius: 4px;
             transition: background 0.3s;
+            margin-right: 60px;
+           
         }
         .navbar .logout-button:hover {
             background-color: #c9302c;
         }
-        .navbar .user-info{
-            margin-left:900px;
-            
+        .navbar .user-info {
+            margin-right: 20px;
         }
+
+        /* เพิ่ม padding ให้กับเนื้อหาเพื่อไม่ให้ซ้อนทับกับ navbar */
+        .content {
+            padding-top: 70px; /* ปรับให้พอดีกับความสูงของ navbar */
+        }
+       
     </style>
 </head>
 <body>
 
-    <!-- Navbar -->
-    <div class="navbar">
-        <div class="logo">Dashboard</div>
-        <ul>
-            <li><a href="#home">บุคลากร</a></li>
-            <li class="dropdown">
-                <a href="#leave">การลา</a>
-                <!-- Dropdown เมนูย่อย -->
-                <div class="dropdown-content">
-                    <a href="#sick-leave">ลาป่วย</a>
-                    <a href="#personal-leave">ลากิจ</a>
-                    <a href="#vacation-leave">ลาพักร้อน</a>
-                </div>
-            </li>
-        </ul>
-        <div class="user-info">ยินดีต้อนรับ, <?= htmlspecialchars($userName); ?></div>
+<div class="navbar">
+    <div class="logo">Dashboard</div>
+    <ul>
+        <li><a href="#home">บุคลากร</a></li>
+        <li class="dropdown">
+            <a href="#leave">การลา</a>
+            <!-- Dropdown เมนูย่อย -->
+            <div class="dropdown-content">
+                <a href="#sick-leave">ลาป่วย</a>
+                <a href="#personal-leave">ลากิจ</a>
+                <a href="#vacation-leave">ลาพักร้อน</a>
+            </div>
+        </li>
+    </ul>
+    <div class="user-info-container">
+        <span class="user-info">ยินดีต้อนรับ, <?= htmlspecialchars($userName); ?></span>
         <a href="logout.php" class="logout-button" onclick="confirmLogout(event)">ออกจากระบบ</a>
-
-
     </div>
+</div>
+
 
     <!-- เนื้อหาในหน้านี้ -->
     <div class="content">
         <h1>Welcome to the Dashboard</h1>
     </div>
+
     <script>
     function confirmLogout(event) {
         event.preventDefault(); // ป้องกันการคลิกลิงก์ทันที
@@ -172,9 +180,7 @@ $userName = $_SESSION['user_name'];
             }
         });
     }
-</script>
-
-   
+    </script>
 
 </body>
 </html>
