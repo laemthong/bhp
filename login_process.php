@@ -30,6 +30,6 @@ if ($result->num_rows == 1) {
 
 // ปิดการเชื่อมต่อ
 $stmt->close();
-$conn->close();
+$conn->closehh();
 ?>
 

@@ -1,8 +1,8 @@
 <?php
-$servername = "127.0.0.1";
-$username = "root";
-$password = ""; // ใส่รหัสผ่านของ MySQL ที่คุณใช้
-$dbname = "testbhp";
+$servername = "192.168.20.20";
+$username = "bph";
+$password = "adminbph11002"; // ใส่รหัสผ่านของ MySQL ที่คุณใช้
+$dbname = "bph_person";
 
 // สร้างการเชื่อมต่อ
 $conn = new mysqli($servername, $username, $password, $dbname);
