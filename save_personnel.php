@@ -68,18 +68,48 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $person_cardNum,       // s (string)
         $person_CardExpired    // s (string - date)
     );
+?>
 
-    // รันคำสั่ง SQL
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>บันทึกข้อมูล</title>
+    <!-- เพิ่ม SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css">
+    <!-- เพิ่ม SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+</head>
+<body>
+
+<?php
+    // รันคำสั่ง SQL และแสดงผลด้วย SweetAlert2
     if ($stmt->execute()) {
         echo "<script>
-                alert('บันทึกข้อมูลเรียบร้อยแล้ว');
-                window.location.href = 'form_person.php';
-              </script>";
+            Swal.fire({
+                title: 'บันทึกสำเร็จ',
+                text: 'ข้อมูลถูกบันทึกเรียบร้อยแล้ว',
+                icon: 'success',
+                confirmButtonText: 'ตกลง'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'form_person.php';
+                }
+            });
+        </script>";
     } else {
         echo "<script>
-                alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล: " . $stmt->error . "');
-                window.location.href = 'form_person.php';
-              </script>";
+            Swal.fire({
+                title: 'เกิดข้อผิดพลาด',
+                text: 'ไม่สามารถบันทึกข้อมูลได้: " . $stmt->error . "',
+                icon: 'error',
+                confirmButtonText: 'ตกลง'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'form_person.php';
+                }
+            });
+        </script>";
     }
 
     // ปิดการเชื่อมต่อ
@@ -87,3 +117,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->close();
 }
 ?>
+
+</body>
+</html>
