@@ -1,9 +1,29 @@
 <?php
 session_start();
+
+$inactive = 180; // 3 นาที (3 * 60 วินาที)
+
+// ตรวจสอบว่า last_activity อยู่ในเซสชันหรือไม่
+if (isset($_SESSION['last_activity'])) {
+    // คำนวณความแตกต่างของเวลา
+    $session_life = time() - $_SESSION['last_activity'];
+    if ($session_life > $inactive) {
+        // ถ้าเกิน 3 นาที ให้ลบข้อมูลเซสชันทั้งหมดและออกจากระบบ
+        session_unset();
+        session_destroy();
+        header("Location: index.php");
+        exit();
+    }
+}
+
+// อัปเดตเวลาล่าสุดของการใช้งานในเซสชัน
+$_SESSION['last_activity'] = time();
+
 if (!isset($_SESSION['user_name'])) {
     header("Location: index.php"); // Redirect to login if not logged in
     exit();
 }
+
 $userName = $_SESSION['user_name'];
 ?>
 <!DOCTYPE html>
@@ -25,7 +45,7 @@ $userName = $_SESSION['user_name'];
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #333;
+            background-color: #3498db;
             padding: 10px 20px;
             color: #fff;
             position: fixed; /* ทำให้ navbar คงที่ */
@@ -59,7 +79,7 @@ $userName = $_SESSION['user_name'];
             align-items: center;
         }
         .navbar ul li a:hover {
-            background-color: #575757;
+            background-color:  #fbc531;
             border-radius: 4px;
         }
 
@@ -86,7 +106,7 @@ $userName = $_SESSION['user_name'];
             position: absolute;
             top: 100%;
             left: 0;
-            background-color: #333;
+            background-color: #17c0eb;
             min-width: 150px;
             border-radius: 4px;
             z-index: 1;
@@ -113,19 +133,7 @@ $userName = $_SESSION['user_name'];
             content: none; /* ไม่แสดงลูกศรในเมนูย่อย */
         }
 
-        .navbar .logout-button {
-            background-color: #d9534f;
-            color: white;
-            padding: 8px 15px;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: background 0.3s;
-            margin-right: 60px;
-           
-        }
-        .navbar .logout-button:hover {
-            background-color: #c9302c;
-        }
+      
         .navbar .user-info {
             margin-right: 20px;
         }
@@ -134,6 +142,73 @@ $userName = $_SESSION['user_name'];
         .content {
             padding-top: 70px; /* ปรับให้พอดีกับความสูงของ navbar */
         }
+        
+        .user-info-container {
+    position: relative;
+    display: inline-block;
+}
+
+.user-info-dropdown {   
+    background-color: #fbc531; /* เปลี่ยนสีพื้นหลังของปุ่ม */
+    color: white; /* เปลี่ยนสีตัวอักษร */
+    border-radius: 4px; /* เพิ่มขอบโค้ง */
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 8px 15px;
+    margin-right: 40px;
+    position: relative;
+}
+
+/* เพิ่มลูกศรชี้ลง */
+.user-info-dropdown::after {
+    content: '';
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 4px;
+    margin-right: 5px;
+    transform: rotate(45deg);
+    transition: transform 0.3s;
+}
+
+/* หมุนลูกศรเมื่อโฮเวอร์ที่ dropdown */
+.user-info-container:hover .user-info-dropdown::after {
+    transform: rotate(-135deg);
+}
+
+/* สไตล์ dropdown-content สำหรับเมนู logout */
+.user-info-container .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #17c0eb;
+    min-width: 150px;
+    border-radius: 8px; /* ปรับขอบให้โค้ง */
+    z-index: 1;
+    margin-right: 38px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* เพิ่มเงาเพื่อให้ดูนุ่มนวล */
+}
+
+.user-info-container .dropdown-content a {
+    color: #fff;
+    padding: 10px 15px;
+    display: block;
+    text-decoration: none;
+    border-radius: 4px; /* ขอบโค้งที่แต่ละตัวเลือก */
+}
+
+.user-info-container .dropdown-content a:hover {
+    background-color: #575757;
+    border-radius: 4px; /* เพิ่มขอบโค้งในสถานะ hover */
+}
+
+/* แสดง dropdown-content เมื่อ hover */
+.user-info-container:hover .dropdown-content {
+    display: block;
+}
+
+
        
     </style>
 </head>
@@ -154,9 +229,13 @@ $userName = $_SESSION['user_name'];
             </div>
         </li>
     </ul>
-    <div class="user-info-container">
-        <span class="user-info">ยินดีต้อนรับ, <?= htmlspecialchars($userName); ?></span>
-        <a href="logout.php" class="logout-button" onclick="confirmLogout(event)">ออกจากระบบ</a>
+    <div class="user-info-container dropdown">
+        <button class="user-info-dropdown">
+           <?= htmlspecialchars($userName); ?> 
+        </button>
+        <div class="dropdown-content">
+            <a href="logout.php" onclick="confirmLogout(event)">ออกจากระบบ</a>
+        </div>
     </div>
 </div>
 

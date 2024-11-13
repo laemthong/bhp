@@ -139,7 +139,7 @@ if (isset($_SESSION['error'])) {
     <div>
         <img src="https://โรงงานเสาเข็ม.com/wp-content/uploads/2022/06/%E0%B8%A3%E0%B8%9E.%E0%B8%9A%E0%B8%9C-800x675.png" alt="Login Logo" style="width: 250px; height:200px;"> <!-- กำหนดขนาดตามต้องการ -->
     </div>
-    <div id="elzero">banphaihospital Login</div>
+    <div id="elzero">Banphai Hospital Login</div>
 </div>
 
         <form autocomplete="off" action="login_process.php" method="post">
