@@ -1,6 +1,25 @@
 <?php
+session_start();
+$inactive = 300;
 
+if (isset($_SESSION['last_activity'])) {
+    $session_life = time() - $_SESSION['last_activity'];
+    if ($session_life > $inactive) {
+        session_unset();
+        session_destroy();
+        header("Location: index.php");
+        exit();
+    }
+}
 
+$_SESSION['last_activity'] = time();
+if (!isset($_SESSION['user_name'])) {
+    header("Location: index.php");
+    exit();
+}
+
+$userName = $_SESSION['user_name'];
+include 'navbar.php';
 ?>
 
 
@@ -119,6 +138,16 @@
                 justify-content: flex-start;
             }
         }
+        .form-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 800px;
+    margin-top: 100px; /* เพิ่มระยะห่างด้านบน */
+}
+
     </style>
 </head>
 <body>
