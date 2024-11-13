@@ -24,6 +24,7 @@ if (!isset($_SESSION['user_name'])) {
     exit();
 }
 
+
 $userName = $_SESSION['user_name'];
 ?>
 <!DOCTYPE html>
@@ -38,8 +39,10 @@ $userName = $_SESSION['user_name'];
     <style>
         /* สไตล์สำหรับ Navbar */
         body {
-            margin: 0;
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fc;
         }
         .navbar {
             display: flex;
@@ -48,10 +51,10 @@ $userName = $_SESSION['user_name'];
             background-color: #3498db;
             padding: 10px 20px;
             color: #fff;
-            position: fixed; /* ทำให้ navbar คงที่ */
-            top: 0; /* ติดอยู่ด้านบนของหน้า */
-            width: 100%; /* กำหนดให้กว้างเต็มหน้าจอ */
-            z-index: 1000; /* ให้ navbar อยู่เหนือเนื้อหาอื่น */
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
         }
         .navbar .logo {
             font-size: 20px;
@@ -140,7 +143,7 @@ $userName = $_SESSION['user_name'];
 
         /* เพิ่ม padding ให้กับเนื้อหาเพื่อไม่ให้ซ้อนทับกับ navbar */
         .content {
-            padding-top: 70px; /* ปรับให้พอดีกับความสูงของ navbar */
+            padding: 80px 20px;
         }
         
         .user-info-container {
@@ -207,6 +210,53 @@ $userName = $_SESSION['user_name'];
 .user-info-container:hover .dropdown-content {
     display: block;
 }
+.dashboard {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card h3 {
+            color: #888;
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .card p {
+            font-size: 24px;
+            color: #333;
+            margin: 10px 0 0;
+        }
+
+      
+
+        .charts {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .chart-container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .chart-container h4 {
+            font-size: 18px;
+            color: #4e73df;
+            margin-bottom: 15px;
+        }
 
 
        
@@ -240,10 +290,94 @@ $userName = $_SESSION['user_name'];
 </div>
 
 
-    <!-- เนื้อหาในหน้านี้ -->
-    <div class="content">
-        <h1>Welcome to the Dashboard</h1>
+  
+
+<div class="content">
+    <div class="dashboard">
+        <div class="card">
+            <h3>EARNINGS (MONTHLY)</h3>
+            <p>$40,000</p>
+        </div>
+        <div class="card">
+            <h3>EARNINGS (ANNUAL)</h3>
+            <p>$215,000</p>
+        </div>
+        <div class="card">
+            <h3>TASKS</h3>
+            <p>50%</p>
+        </div>
+        <div class="card">
+            <h3>PENDING REQUESTS</h3>
+            <p>18</p>
+        </div>
     </div>
+
+    <div class="charts">
+        <div class="chart-container">
+            <h4>Earnings Overview</h4>
+            <canvas id="earningsChart"></canvas>
+        </div>
+        <div class="chart-container">
+            <h4>Revenue Sources</h4>
+            <canvas id="revenueChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Earnings Overview Chart
+    const ctx1 = document.getElementById('earningsChart').getContext('2d');
+    const earningsChart = new Chart(ctx1, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [{
+                label: 'Earnings',
+                data: [10000, 15000, 12000, 17000, 13000, 19000, 25000, 30000, 27000, 35000, 37000, 40000],
+                borderColor: '#4e73df',
+                fill: true,
+                backgroundColor: 'rgba(78, 115, 223, 0.1)',
+                tension: 0.3,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 40000,
+                    ticks: { callback: (value) => '$' + value.toLocaleString() }
+                }
+            }
+        }
+    });
+
+    // Revenue Sources Chart
+    const ctx2 = document.getElementById('revenueChart').getContext('2d');
+    const revenueChart = new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            labels: ['Direct', 'Social', 'Referral'],
+            datasets: [{
+                data: [55, 30, 15],
+                backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                hoverBorderColor: "rgba(234, 236, 244, 1)",
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                }
+            }
+        }
+    });
+</script>
 
     <script>
     function confirmLogout(event) {
